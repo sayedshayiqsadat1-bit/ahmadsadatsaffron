@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sayedshayiqsadat1-bit.github.io/ahmadsadatsaffron/sitemap.xml
