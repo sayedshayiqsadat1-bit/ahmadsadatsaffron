@@ -104,17 +104,17 @@ button, input { font-family: inherit; }
 .section-heading > a span { margin-right: 8px; }
 .product-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
 .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.super-bg { background-image: url("assets/saffron-super.jpeg"); background-size: cover; background-position: center; }
-.premium-bg { background-image: url("assets/saffron-premium.jpeg"); background-size: cover; background-position: center; }
+.super-bg { background-image: url("saffron-super.jpeg"); background-size: cover; background-position: center; }
+.premium-bg { background-image: url("saffron-premium.jpeg"); background-size: cover; background-position: center; }
 .product-card { border: 1px solid #eee7df; background: white; transition: transform .25s, box-shadow .25s; }
 .product-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(82,58,39,.09); }
 .product-image { height: 270px; position: relative; display: grid; place-items: center; overflow: hidden; }
 .red-bg { background: radial-gradient(circle at 50% 54%, #f0dfd4 0 20%, #eee3d7 21% 54%, #e7dac8 55%); }
 .gold-bg { background: radial-gradient(circle at 50% 54%, #e7d4ae 0 20%, #eee5d5 21% 54%, #e4d7c2 55%); }
 .cream-bg { background: radial-gradient(circle at 50% 54%, #f0e8da 0 22%, #f5f0e7 23% 54%, #eae1d2 55%); }
-.red-bg { background-image: linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)), url("assets/product.jpeg"); background-size:cover; background-position:center; }
-.gold-bg { background-image: linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)), url("assets/flowers.jpeg"); background-size:cover; background-position:center; }
-.cream-bg { background-image: linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)), url("assets/field.jpeg"); background-size:cover; background-position:center; }
+.red-bg { background-image: linear-gradient(rgba(255,255,255,.76),rgba(255,255,255,.76)), url("product.jpeg"); background-size:cover; background-position:center; }
+.gold-bg { background-image: linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)), url("flowers.jpeg"); background-size:cover; background-position:center; }
+.cream-bg { background-image: linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)), url("field.jpeg"); background-size:cover; background-position:center; }
 .tag { position: absolute; right: 14px; top: 14px; z-index: 3; background: var(--red); color: white; border-radius: 20px; font-size: 9px; padding: 6px 10px; }
 .tag.green { background: #71785d; }
 .mini-box { width: 150px; height: 205px; background: linear-gradient(145deg,#9d2429,#75191d); color: #eee0bb; text-align: center; padding-top: 36px; border: 7px solid #861d22; box-shadow: 12px 14px 18px rgba(94,64,42,.16); position: relative; }
