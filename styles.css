@@ -40,6 +40,7 @@ button, input { font-family: inherit; }
 .nav a.active { color: var(--red); font-weight: 700; }
 .nav a.active::after { content: ""; position: absolute; bottom: 0; width: 28px; height: 3px; background: var(--red); }
 .header-actions { display: flex; align-items: center; gap: 9px; }
+.language-select { height: 40px; border: 1px solid #eee7df; border-radius: 5px; background: white; color: var(--ink); padding: 0 8px; font-size: 12px; cursor: pointer; }
 .icon-button, .cart-button { border: 0; background: transparent; cursor: pointer; }
 .icon-button { width: 42px; height: 42px; border: 1px solid #eee7df; border-radius: 50%; display: grid; place-items: center; }
 .icon-button svg { width: 19px; fill: none; stroke: var(--ink); stroke-width: 1.7; }
