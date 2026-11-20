@@ -123,6 +123,25 @@ function applyLanguage(language) {
     if (dictionary[original]) node.textContent = node.textContent.replace(original, dictionary[original]);
   });
   document.querySelectorAll("[dir='ltr']").forEach((el) => el.dir = "ltr");
+
+  document.querySelectorAll(".product-card").forEach((card) => {
+    const afghaniPrice = Number(card.dataset.price);
+    const priceSpan = card.querySelector(".product-footer strong span");
+    const footer = card.querySelector(".product-footer strong");
+    if (!priceSpan || !footer) return;
+
+    if (language === "de") {
+      const euroPrices = { 600: "۱۲", 1500: "۳۰", 1800: "۳۶", 150: "۳" };
+      priceSpan.textContent = euroPrices[afghaniPrice] || priceSpan.textContent;
+      footer.childNodes.forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) node.textContent = afghaniPrice === 150 ? " € / g" : " €";
+      });
+    } else if (language === "en") {
+      footer.childNodes.forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) node.textContent = afghaniPrice === 150 ? " AFN / g" : " AFN";
+      });
+    }
+  });
   document.getElementById("searchOverlay").querySelector("input").placeholder =
     language === "en" ? "Search products..." : language === "de" ? "Produkte suchen..." : "جستجو در محصولات...";
   localStorage.setItem("saffronLanguage", language);
