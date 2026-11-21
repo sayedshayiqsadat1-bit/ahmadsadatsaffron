@@ -1,240 +1,611 @@
-const cartCount = document.getElementById("cartCount");
-const toast = document.getElementById("toast");
-let count = 0;
+(() => {
+  "use strict";
 
-const translations = {
-  en: {
-    "زعفران احمد سادات": "Ahmad Sadat Saffron",
-    "احمد سادات": "Ahmad Sadat",
-    "زعفران اصل هرات": "Pure Herat Saffron",
-    "ارسال رایگان برای سفارش‌های بالای ۱٬۵۰۰ افغانی": "Free delivery for orders over AFN 1,500",
-    "مجوزها و ضمانت‌ها": "Certificates & Guarantees",
-    "پیگیری سفارش": "Track Order",
-    "بهترین زعفران افغانستان": "Afghanistan's Finest Saffron",
-    "خانه": "Home",
-    "فروشگاه": "Shop",
-    "درباره ما": "About Us",
-    "تماس با ما": "Contact",
-    "جستجو": "Search",
-    "سبد خرید": "Cart",
-    "عطر اصالت، طعم سرزمین": "The fragrance of authenticity, the taste of the homeland",
-    "طلایی‌ترین هدیه": "The Golden Gift",
-    "از قلب افغانستان": "From the Heart of Afghanistan",
-    "برترین زعفران افغانستان با بالاترین قدرت رنگی و عطر طبیعی، از مزارع هرات تا سفره شما.": "Afghanistan's finest saffron, with exceptional natural color and aroma, from the fields of Herat to your table.",
-    "مشاهده محصولات": "View Products",
-    "داستان ما": "Our Story",
-    "زعفران درجه یک": "Premium Saffron",
-    "طبیعی و خالص": "Natural & Pure",
-    "خالص و تضمینی": "Pure & Guaranteed",
-    "دارای مجوز و آزمایشگاه تخصصی": "Licensed and laboratory tested",
-    "ارسال سریع": "Fast Delivery",
-    "ارسال امن به تمام شهرها": "Secure delivery nationwide",
-    "ضمانت بازگشت": "Return Guarantee",
-    "هفت روز ضمانت تعویض کالا": "Seven-day replacement guarantee",
-    "انتخاب‌های محبوب": "Popular Choices",
-    "محصولات ویژه": "Featured Products",
-    "مشاهده همه": "View All",
-    "پرفروش": "Best Seller",
-    "جدید": "New",
-    "هدیه ویژه": "Special Gift",
-    "تضمین کیفیت": "Quality Guaranteed",
-    "سرگل ممتاز": "Premium Sargol",
-    "سوپر نگین هرات": "Super Negin Herat",
-    "ظرفیت ۴ گرم": "Net Weight: 4 g",
-    "ظرفیت ۱۰ گرم": "Net Weight: 10 g",
-    "۱۲ گرم زعفران و هل": "12 g saffron and cardamom",
-    "فروخته‌شده به نرخ هر گرم": "Sold at a price per gram",
-    "افغانی": "AFN",
-    "افغانی / گرم": "AFN / g",
-    "تاریخچه، تعهد و کیفیت": "Our History, Commitment & Quality",
-    "از دل هرات، به جهان": "From Herat to the World",
-    "شرکت زعفران احمد سادات فعالیت خود را از سال ۲۰۱۹ میلادی با یک هدف روشن آغاز کرد: عرضهٔ زعفران اصیل، خالص و ممتاز افغانستان با حفظ کیفیت محصول از مزارع هرات تا دست مشتریان در داخل و خارج کشور. در سال‌های اخیر، رهبری این شرکت بر عهدهٔ سید نایب سادات به‌عنوان رئیس و سید شایق سادات به‌عنوان معاون بوده است؛ دو مدیر که با تجربه، مسئولیت‌پذیری و نگاه حرفه‌ای بر کیفیت، شفافیت و اعتماد در تمامی مراحل فعالیت نظارت دارند. زعفران احمد سادات امروز با انتخاب دقیق گل‌ها، خشک‌کردن و بسته‌بندی استاندارد و تضمین اصالت، یکی از نمایندگان معتبر کیفیت زعفران افغان است که می‌کوشد رنگ، عطر و طعم منحصر‌به‌فرد این گران‌بها را با آشپزخانه‌ها و بازارهای جهان پیوند دهد.": "Ahmad Sadat Saffron began its activities in 2019 with a clear vision: to offer pure, authentic and premium Afghan saffron while preserving quality from the fields of Herat to customers at home and abroad. In recent years, the company has been led by Sayyed Nayeb Sadat as Chairman and Sayyed Shaiq Sadat as Deputy Chairman—two experienced leaders who oversee quality, transparency and trust throughout every stage of the business with professionalism and responsibility. Today, Ahmad Sadat Saffron carefully selects the flowers, applies standard drying and packaging, and guarantees authenticity. It is a trusted representative of Afghan saffron quality, connecting the distinctive color, aroma and flavor of this precious spice with kitchens and markets around the world.",
-    "هرات، افغانستان": "Herat, Afghanistan",
-    "افغانستان": "Afghanistan",
-    "آلمان": "Germany",
-    "جستجو در محصولات...": "Search products...",
-    "به سبد خرید اضافه شد": "Added to cart",
-    "بستن": "Close"
-  },
-  de: {
-    "زعفران احمد سادات": "Ahmad-Sadat-Safran",
-    "احمد سادات": "Ahmad Sadat",
-    "زعفران اصل هرات": "Reiner Safran aus Herat",
-    "ارسال رایگان برای سفارش‌های بالای ۱٬۵۰۰ افغانی": "Kostenloser Versand ab AFN 1.500",
-    "مجوزها و ضمانت‌ها": "Zertifikate & Garantie",
-    "پیگیری سفارش": "Bestellung verfolgen",
-    "بهترین زعفران افغانستان": "Afghanistans feinster Safran",
-    "خانه": "Startseite",
-    "فروشگاه": "Shop",
-    "درباره ما": "Über uns",
-    "تماس با ما": "Kontakt",
-    "جستجو": "Suche",
-    "سبد خرید": "Warenkorb",
-    "عطر اصالت، طعم سرزمین": "Der Duft der Echtheit, der Geschmack der Heimat",
-    "طلایی‌ترین هدیه": "Das goldene Geschenk",
-    "از قلب افغانستان": "Aus dem Herzen Afghanistans",
-    "برترین زعفران افغانستان با بالاترین قدرت رنگی و عطر طبیعی، از مزارع هرات تا سفره شما.": "Afghanistans feinster Safran mit außergewöhnlich intensiver natürlicher Farbe und Duft – von den Feldern Herats auf Ihren Tisch.",
-    "مشاهده محصولات": "Produkte ansehen",
-    "داستان ما": "Unsere Geschichte",
-    "زعفران درجه یک": "Premium-Safran",
-    "طبیعی و خالص": "Natürlich & Rein",
-    "خالص و تضمینی": "Rein & garantiert",
-    "دارای مجوز و آزمایشگاه تخصصی": "Zertifiziert und laborgeprüft",
-    "ارسال سریع": "Schnelle Lieferung",
-    "ارسال امن به تمام شهرها": "Sichere Lieferung überall",
-    "ضمانت بازگشت": "Rückgabegarantie",
-    "هفت روز ضمانت تعویض کالا": "Umtauschgarantie innerhalb von sieben Tagen",
-    "انتخاب‌های محبوب": "Beliebte Auswahl",
-    "محصولات ویژه": "Besondere Produkte",
-    "مشاهده همه": "Alle anzeigen",
-    "پرفروش": "Bestseller",
-    "جدید": "Neu",
-    "هدیه ویژه": "Besondere Geschenkbox",
-    "تضمین کیفیت": "Qualitätsgarantie",
-    "سرگل ممتاز": "Premium-Sargol",
-    "سوپر نگین هرات": "Super Negin Herat",
-    "ظرفیت ۴ گرم": "Nettogewicht: 4 g",
-    "ظرفیت ۱۰ گرم": "Nettogewicht: 10 g",
-    "۱۲ گرم زعفران و هل": "12 g Safran und Kardamom",
-    "فروخته‌شده به نرخ هر گرم": "Preis pro Gramm",
-    "افغانی": "€",
-    "افغانی / گرم": "€/g",
-    "۶۰۰": "۱۲",
-    "۱٬۵۰۰": "۳۰",
-    "۱٬۸۰۰": "۳۶",
-    "۱۵۰": "۳",
-    "تاریخچه، تعهد و کیفیت": "Geschichte, Verpflichtung & Qualität",
-    "از دل هرات، به جهان": "Von Herat für die Welt",
-    "شرکت زعفران احمد سادات فعالیت خود را از سال ۲۰۱۹ میلادی با یک هدف روشن آغاز کرد: عرضهٔ زعفران اصیل، خالص و ممتاز افغانستان با حفظ کیفیت محصول از مزارع هرات تا دست مشتریان در داخل و خارج کشور. در سال‌های اخیر، رهبری این شرکت بر عهدهٔ سید نایب سادات به‌عنوان رئیس و سید شایق سادات به‌عنوان معاون بوده است؛ دو مدیر که با تجربه، مسئولیت‌پذیری و نگاه حرفه‌ای بر کیفیت، شفافیت و اعتماد در تمامی مراحل فعالیت نظارت دارند. زعفران احمد سادات امروز با انتخاب دقیق گل‌ها، خشک‌کردن و بسته‌بندی استاندارد و تضمین اصالت، یکی از نمایندگان معتبر کیفیت زعفران افغان است که می‌کوشد رنگ، عطر و طعم منحصر‌به‌فرد این گران‌بها را با آشپزخانه‌ها و بازارهای جهان پیوند دهد.": "Ahmad Sadat Saffron begann seine Tätigkeit im Jahr 2019 mit einer klaren Vision: reinen, authentischen und hochwertigen afghanischen Safran anzubieten und dabei die Qualität vom Anbau in Herat bis zum Kunden im In- und Ausland zu bewahren. In den letzten Jahren wurde das Unternehmen von Sayyed Nayeb Sadat als Vorsitzendem und Sayyed Shaiq Sadat als stellvertretendem Vorsitzendem geleitet – zwei erfahrene Führungskräfte, die mit Verantwortung und Professionalität Qualität, Transparenz und Vertrauen in allen Unternehmensbereichen gewährleisten. Heute wählt Ahmad Sadat Saffron die Blüten sorgfältig aus, verwendet standardisierte Trocknungs- und Verpackungsverfahren und garantiert die Echtheit. Das Unternehmen ist ein vertrauenswürdiger Repräsentant afghanischer Safranqualität und verbindet die unverwechselbare Farbe, das Aroma und den Geschmack dieses kostbaren Gewürzes mit Küchen und Märkten weltweit.",
-    "هرات، افغانستان": "Herat, Afghanistan",
-    "افغانستان": "Afghanistan",
-    "آلمان": "Deutschland",
-    "جستجو در محصولات...": "Produkte suchen...",
-    "به سبد خرید اضافه شد": "Zum Warenkorb hinzugefügt",
-    "بستن": "Schließen"
+  const allowedLanguages = ["fa", "en", "de"];
+  const languageKey = "ahmad-sadat-language";
+  const cartKey = "ahmad-sadat-cart";
+  const whatsappNumber = "4917672877422";
+  const numberLocales = { fa: "fa-AF", en: "en-US", de: "de-DE" };
+  const pageCopy = {
+    fa: {
+      title: "زعفران احمد سادات | بهترین زعفران اصل افغانستان",
+      description: "زعفران احمد سادات؛ زعفران افغانستان از هرات. محصولات سرگل، سوپر نگین و پک هدیه را ببینید و برای سفارش به فارسی، انگلیسی یا آلمانی پیام بدهید."
+    },
+    en: {
+      title: "Ahmad Sadat Saffron | Premium Afghan Saffron",
+      description: "Discover Ahmad Sadat Saffron from Herat, Afghanistan. Explore Sargol, Super Negin and gift products, then contact us in Persian, English or German to inquire."
+    },
+    de: {
+      title: "Ahmad-Sadat-Safran | Afghanischer Safran aus Herat",
+      description: "Entdecken Sie Ahmad-Sadat-Safran aus Herat, Afghanistan. Wählen Sie Sargol, Super Negin oder Geschenksets und fragen Sie auf Persisch, Englisch oder Deutsch an."
+    }
+  };
+  const translations = {
+    "زعفران احمد سادات، از هرات افغانستان — آغاز فعالیت در ۲۰۱۹": {
+      en: "Ahmad Sadat Saffron from Herat, Afghanistan — established in 2019",
+      de: "Ahmad-Sadat-Safran aus Herat, Afghanistan — gegründet 2019"
+    },
+    "محصولات": { en: "Products", de: "Produkte" },
+    "راه‌های تماس": { en: "Contact", de: "Kontakt" },
+    "صفحه اصلی": { en: "Home", de: "Startseite" },
+    "خانه": { en: "Home", de: "Startseite" },
+    "فروشگاه": { en: "Shop", de: "Shop" },
+    "درباره ما": { en: "Our story", de: "Über uns" },
+    "تماس با ما": { en: "Contact us", de: "Kontakt" },
+    "بازکردن منو": { en: "Open menu", de: "Menü öffnen" },
+    "بستن منو": { en: "Close menu", de: "Menü schließen" },
+    "انتخاب زبان": { en: "Choose language", de: "Sprache auswählen" },
+    "جستجو": { en: "Search", de: "Suche" },
+    "سبد خرید": { en: "Cart", de: "Warenkorb" },
+    "بهترین زعفران افغانستان": { en: "The finest saffron from Afghanistan", de: "Bester Safran aus Afghanistan" },
+    "عطر اصالت، طعم سرزمین": { en: "A genuine aroma, a taste of the land", de: "Echter Duft, Geschmack der Heimat" },
+    "طلایی‌ترین هدیه": { en: "A golden gift", de: "Ein goldenes Geschenk" },
+    "از قلب افغانستان": { en: "From the heart of Afghanistan", de: "Aus dem Herzen Afghanistans" },
+    "زعفران احمد سادات از هرات افغانستان؛ محصولات را با وزن و قیمت روشن ببینید و سفارش خود را مستقیم با ما هماهنگ کنید.": {
+      en: "Ahmad Sadat Saffron from Herat, Afghanistan. See clear product weights and prices, then contact us directly to arrange your order.",
+      de: "Ahmad-Sadat-Safran aus Herat, Afghanistan. Sehen Sie transparente Gewichte und Preise und stimmen Sie Ihre Bestellung direkt mit uns ab."
+    },
+    "مشاهده محصولات": { en: "Explore products", de: "Produkte ansehen" },
+    "داستان ما": { en: "Our story", de: "Unsere Geschichte" },
+    "زعفران درجه یک": { en: "Premium saffron", de: "Erlesener Safran" },
+    "زعفران احمد سادات": { en: "Ahmad Sadat Saffron", de: "Ahmad-Sadat-Safran" },
+    "زعفران اصل هرات": { en: "Authentic Herat saffron", de: "Echter Safran aus Herat" },
+    "آغاز فعالیت": { en: "Established", de: "Gegründet" },
+    "ریشه در هرات": { en: "Rooted in Herat", de: "Verwurzelt in Herat" },
+    "زعفران افغانستان از هرات": { en: "Afghan saffron from Herat", de: "Afghanischer Safran aus Herat" },
+    "سفارش آگاهانه": { en: "Informed ordering", de: "Bewusst bestellen" },
+    "وزن و قیمت هر محصول روشن است": { en: "Clear weight and pricing", de: "Klare Gewichts- und Preisangaben" },
+    "پشتیبانی سه‌زبانه": { en: "Three-language support", de: "Beratung in drei Sprachen" },
+    "فارسی، English، Deutsch": { en: "Persian, English, German", de: "Persisch, Englisch, Deutsch" },
+    "انتخاب‌های محبوب": { en: "Customer favorites", de: "Beliebte Auswahl" },
+    "محصولات ویژه": { en: "Featured products", de: "Unsere Produkte" },
+    "راهنمای سفارش": { en: "How to order", de: "So bestellen Sie" },
+    "پرفروش": { en: "Popular", de: "Beliebt" },
+    "هدیه ویژه": { en: "Gift favorite", de: "Besonderes Geschenk" },
+    "جدید": { en: "New", de: "Neu" },
+    "تضمین کیفیت": { en: "Quality assured", de: "Qualitätsversprechen" },
+    "زعفران سرگل سوپر نگین": { en: "Super Sargol Saffron", de: "Super-Sargol-Safran" },
+    "زعفران سوپر نگین هرات": { en: "Super Negin Saffron from Herat", de: "Super-Negin-Safran aus Herat" },
+    "پک هدیه رونق": { en: "Rownaq Gift Box", de: "Geschenkbox Rownaq" },
+    "زعفران سوپر نگین": { en: "Super Negin Saffron", de: "Super-Negin-Safran" },
+    "زعفران ممتاز": { en: "Premium Saffron", de: "Premium-Safran" },
+    "احمد سادات": { en: "Ahmad Sadat", de: "Ahmad Sadat" },
+    "سرگل ممتاز": { en: "Premium Sargol", de: "Premium-Sargol" },
+    "سوپر نگین هرات": { en: "Herat Super Negin", de: "Herat Super Negin" },
+    "وزن خالص: ۴ گرم": { en: "Net weight: 4 g", de: "Nettogewicht: 4 g" },
+    "وزن خالص: ۱۰ گرم": { en: "Net weight: 10 g", de: "Nettogewicht: 10 g" },
+    "۱۲ گرم زعفران و هل": { en: "12 g saffron and cardamom", de: "12 g Safran und Kardamom" },
+    "فروش وزنی؛ قیمت برای هر گرم": { en: "Sold by weight; price per gram", de: "Lose Ware; Preis pro Gramm" },
+    "راهنمای سفارش": { en: "How to order", de: "So bestellen Sie" },
+    "ساده و روشن": { en: "Simple and clear", de: "Einfach und transparent" },
+    "چگونه سفارش بدهید؟": { en: "How to place an order", de: "So geben Sie eine Bestellung auf" },
+    "محصول را انتخاب کنید": { en: "Choose a product", de: "Produkt auswählen" },
+    "وزن، نوع بسته و قیمت هر محصول را در فروشگاه ببینید.": {
+      en: "Check each product's weight, package type and price in the shop.",
+      de: "Informieren Sie sich im Shop über Gewicht, Packungsart und Preis."
+    },
+    "سبد خرید را مرور کنید": { en: "Review your cart", de: "Warenkorb prüfen" },
+    "تعداد بسته‌ها یا گرم‌های موردنظر را تنظیم کنید.": {
+      en: "Adjust the number of packs or grams you would like.",
+      de: "Passen Sie die gewünschte Anzahl an Packungen oder Gramm an."
+    },
+    "جزئیات را با ما هماهنگ کنید": { en: "Confirm the details with us", de: "Details mit uns abstimmen" },
+    "درخواست سفارش از طریق واتساپ باز می‌شود؛ پیش از ارسال پیام، متن سفارش را بررسی کنید.": {
+      en: "A WhatsApp order inquiry will open. Review the message before you choose to send it.",
+      de: "Eine Bestellanfrage in WhatsApp wird geöffnet. Prüfen Sie die Nachricht, bevor Sie sie senden."
+    },
+    "تاریخچه، تعهد و کیفیت": { en: "Our history, commitment and quality", de: "Geschichte, Anspruch und Qualität" },
+    "از دل هرات، به جهان": { en: "From Herat to the world", de: "Von Herat in die Welt" },
+    "شرکت زعفران احمد سادات فعالیت خود را از سال ۲۰۱۹ میلادی با یک هدف روشن آغاز کرد: عرضهٔ زعفران اصیل، خالص و ممتاز افغانستان با حفظ کیفیت محصول از مزارع هرات تا دست مشتریان در داخل و خارج کشور. در سال‌های اخیر، رهبری این شرکت بر عهدهٔ سید نایب سادات به‌عنوان رئیس و سید شایق سادات به‌عنوان معاون بوده است؛ دو مدیر که با تجربه، مسئولیت‌پذیری و نگاه حرفه‌ای بر کیفیت، شفافیت و اعتماد در تمامی مراحل فعالیت نظارت دارند. زعفران احمد سادات امروز با انتخاب دقیق گل‌ها، خشک‌کردن و بسته‌بندی استاندارد و تضمین اصالت، یکی از نمایندگان معتبر کیفیت زعفران افغان است که می‌کوشد رنگ، عطر و طعم منحصر‌به‌فرد این گران‌بها را با آشپزخانه‌ها و بازارهای جهان پیوند دهد.": {
+      en: "Ahmad Sadat Saffron began its work in 2019 with a clear purpose: to offer authentic, pure, premium Afghan saffron while preserving its quality from the fields of Herat to customers at home and abroad. In recent years, the company has been led by President Syed Nayeb Sadat and Vice President Syed Shayeq Sadat. With experience and a professional approach, they oversee quality, transparency and trust throughout the work. Today, Ahmad Sadat Saffron carefully selects its flowers and focuses on careful drying, considered packaging and authenticity, sharing the distinctive color, aroma and flavor of Afghan saffron with kitchens and markets around the world.",
+      de: "Ahmad-Sadat-Safran nahm seine Tätigkeit 2019 mit einem klaren Ziel auf: authentischen, reinen und hochwertigen Safran aus Afghanistan anzubieten und seine Qualität von den Feldern in Herat bis zu Kundinnen und Kunden im In- und Ausland zu bewahren. In den vergangenen Jahren wurde das Unternehmen von Präsident Syed Nayeb Sadat und Vizepräsident Syed Shayeq Sadat geleitet. Mit Erfahrung und einem professionellen Anspruch achten sie bei allen Abläufen auf Qualität, Transparenz und Vertrauen. Heute wählt Ahmad-Sadat-Safran seine Blüten sorgfältig aus und legt Wert auf behutsame Trocknung, sorgfältige Verpackung und Authentizität, um Farbe, Duft und Geschmack afghanischen Safrans mit Küchen und Märkten weltweit zu teilen."
+    },
+    "هرات، افغانستان": { en: "Herat, Afghanistan", de: "Herat, Afghanistan" },
+    "افغانستان:": { en: "Afghanistan:", de: "Afghanistan:" },
+    "آلمان:": { en: "Germany:", de: "Deutschland:" },
+    "پیام در واتساپ": { en: "Message us on WhatsApp", de: "Nachricht per WhatsApp" },
+    "سبد خرید شما": { en: "Your cart", de: "Ihr Warenkorb" },
+    "بستن سبد خرید": { en: "Close cart", de: "Warenkorb schließen" },
+    "سبد خرید شما هنوز خالی است.": { en: "Your cart is empty.", de: "Ihr Warenkorb ist noch leer." },
+    "مجموع تقریبی": { en: "Estimated total", de: "Ungefähre Summe" },
+    "پاک‌کردن سبد": { en: "Clear cart", de: "Warenkorb leeren" },
+    "ادامه در واتساپ": { en: "Continue to WhatsApp", de: "Weiter zu WhatsApp" },
+    "این سایت پرداخت آنلاین ندارد. درخواست در واتساپ باز می‌شود و فقط پس از ارسال پیام توسط شما به ما می‌رسد؛ هزینه و جزئیات ارسال را پیش از نهایی‌کردن هماهنگ کنید.": {
+      en: "This site does not take online payments. WhatsApp opens with a prepared inquiry; we receive it only if you choose to send it. Confirm the price and delivery details with us before completing your order.",
+      de: "Auf dieser Website ist keine Online-Zahlung möglich. WhatsApp öffnet eine vorbereitete Anfrage, die uns erst erreicht, wenn Sie sie selbst senden. Stimmen Sie Preis und Lieferdetails vor Abschluss der Bestellung mit uns ab."
+    },
+    "بستن جستجو": { en: "Close search", de: "Suche schließen" },
+    "جستجو در محصولات": { en: "Search products", de: "Produkte suchen" },
+    "جستجو در محصولات...": { en: "Search products...", de: "Produkte suchen..." },
+    "به سبد خرید اضافه شد": { en: "Added to cart", de: "Zum Warenkorb hinzugefügt" }
+  };
+  const productDescriptions = {
+    "sargol-4": { fa: "وزن خالص: ۴ گرم", en: "Net weight: 4 g", de: "Nettogewicht: 4 g" },
+    "super-negin-10": { fa: "وزن خالص: ۱۰ گرم", en: "Net weight: 10 g", de: "Nettogewicht: 10 g" },
+    "gift-12": { fa: "۱۲ گرم زعفران و هل", en: "12 g saffron and cardamom", de: "12 g Safran und Kardamom" },
+    "super-negin-gram": { fa: "فروش وزنی؛ قیمت برای هر گرم", en: "Sold by weight; price per gram", de: "Lose Ware; Preis pro Gramm" },
+    "premium-gram": { fa: "فروش وزنی؛ قیمت برای هر گرم", en: "Sold by weight; price per gram", de: "Lose Ware; Preis pro Gramm" }
+  };
+  const uiCopy = {
+    fa: {
+      currency: "افغانی",
+      perGram: "افغانی / گرم",
+      pack: "بسته",
+      gram: "گرم",
+      add: "افزودن",
+      remove: "حذف",
+      decrease: "کم‌کردن تعداد",
+      increase: "افزودن تعداد",
+      searchResults: (count) => `${formatNumber(count, "fa")} محصول پیدا شد.`,
+      noResults: "محصولی با این عبارت پیدا نشد.",
+      addMessage: (name) => `${name} به سبد خرید اضافه شد`,
+      whatsappIntro: "سلام، می‌خواهم دربارهٔ این محصولات زعفران احمد سادات سفارش بدهم:",
+      whatsappTotal: "مجموع تقریبی",
+      whatsappUnitPack: "بسته",
+      whatsappUnitGram: "گرم",
+      whatsappClose: "لطفاً موجودی، هزینه و جزئیات ارسال را با من هماهنگ کنید."
+    },
+    en: {
+      currency: "AFN",
+      perGram: "AFN / g",
+      pack: "pack",
+      gram: "g",
+      add: "Add",
+      remove: "Remove",
+      decrease: "Decrease quantity",
+      increase: "Increase quantity",
+      searchResults: (count) => `${formatNumber(count, "en")} products found.`,
+      noResults: "No products match your search.",
+      addMessage: (name) => `${name} added to cart`,
+      whatsappIntro: "Hello, I would like to inquire about ordering these Ahmad Sadat Saffron products:",
+      whatsappTotal: "Estimated total",
+      whatsappUnitPack: "pack(s)",
+      whatsappUnitGram: "g",
+      whatsappClose: "Please confirm availability, price and delivery details with me."
+    },
+    de: {
+      currency: "€",
+      perGram: "€ / g",
+      pack: "Packung",
+      gram: "g",
+      add: "Hinzufügen",
+      remove: "Entfernen",
+      decrease: "Menge verringern",
+      increase: "Menge erhöhen",
+      searchResults: (count) => `${formatNumber(count, "de")} Produkte gefunden.`,
+      noResults: "Keine passenden Produkte gefunden.",
+      addMessage: (name) => `${name} zum Warenkorb hinzugefügt`,
+      whatsappIntro: "Guten Tag, ich möchte folgende Produkte von Ahmad-Sadat-Safran anfragen:",
+      whatsappTotal: "Ungefähre Summe",
+      whatsappUnitPack: "Packung(en)",
+      whatsappUnitGram: "g",
+      whatsappClose: "Bitte bestätigen Sie Verfügbarkeit, Preis und Lieferdetails."
+    }
+  };
+
+  const productCards = [...document.querySelectorAll(".product-card")];
+  const products = new Map();
+  for (const card of productCards) {
+    const id = card.dataset.id;
+    const priceAFN = Number(card.dataset.price);
+    const priceEUR = Number(card.dataset.priceEur);
+    if (!id || !Number.isFinite(priceAFN) || !Number.isFinite(priceEUR) || !card.dataset.unit) {
+      throw new Error("A product is missing a valid id, price, or unit.");
+    }
+    if (products.has(id)) throw new Error(`Duplicate product id: ${id}`);
+    products.set(id, {
+      id,
+      card,
+      name: {
+        fa: card.dataset.name,
+        en: card.dataset.nameEn,
+        de: card.dataset.nameDe
+      },
+      priceAFN,
+      priceEUR,
+      unit: card.dataset.unit
+    });
   }
-};
 
-function applyLanguage(language) {
-  const isRtl = language === "fa";
-  document.documentElement.lang = language;
-  document.documentElement.dir = isRtl ? "rtl" : "ltr";
-  document.body.style.direction = isRtl ? "rtl" : "ltr";
-  document.body.classList.remove("lang-fa", "lang-en", "lang-de");
-  document.body.classList.add(`lang-${language}`);
-  const dictionary = translations[language] || {};
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const textNodes = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-  textNodes.forEach((node) => {
-    const original = node.textContent.trim();
-    if (dictionary[original]) node.textContent = node.textContent.replace(original, dictionary[original]);
-  });
-  document.querySelectorAll("[dir='ltr']").forEach((el) => el.dir = "ltr");
+  const elements = {
+    language: document.getElementById("languageSelect"),
+    menu: document.getElementById("menuToggle"),
+    nav: document.getElementById("mainNav"),
+    searchButton: document.getElementById("searchButton"),
+    searchOverlay: document.getElementById("searchOverlay"),
+    closeSearch: document.getElementById("closeSearch"),
+    searchInput: document.getElementById("productSearchInput"),
+    searchStatus: document.getElementById("searchStatus"),
+    cartButton: document.getElementById("cartButton"),
+    cartCount: document.getElementById("cartCount"),
+    cartDialog: document.getElementById("cartDialog"),
+    cartItems: document.getElementById("cartItems"),
+    cartEmpty: document.getElementById("cartEmpty"),
+    cartTotal: document.getElementById("cartTotal"),
+    clearCart: document.getElementById("clearCart"),
+    closeCart: document.getElementById("closeCart"),
+    orderLink: document.getElementById("orderOnWhatsApp"),
+    toast: document.getElementById("toast")
+  };
 
-  const productNames = language === "de"
-    ? ["Super-Sargol-Safran", "Super-Negin-Safran aus Herat", "Geschenkbox Rownaq", "Super-Negin-Safran", "Premium-Safran"]
-    : language === "en"
-      ? ["Super Sargol Saffron", "Super Negin Saffron from Herat", "Rownaq Gift Box", "Super Negin Saffron", "Premium Saffron"]
-      : [];
+  for (const [name, element] of Object.entries(elements)) {
+    if (!element) throw new Error(`Required page element is missing: ${name}`);
+  }
 
-  document.querySelectorAll(".product-card").forEach((card, index) => {
-    const afghaniPrice = Number(card.dataset.price);
-    const priceSpan = card.querySelector(".product-footer strong span");
-    const footer = card.querySelector(".product-footer strong");
-    const title = card.querySelector("h3");
-    const capacity = card.querySelector(".product-info p");
-    if (title && productNames[index]) title.textContent = productNames[index];
+  const originalText = new WeakMap();
+  let currentLanguage = getSavedLanguage();
+  let toastTimer;
+  const cart = readCart();
 
-    if (language === "de") {
-      if (capacity) {
-        const capacities = ["Nettogewicht: 4 g", "Nettogewicht: 10 g", "12 g Safran und Kardamom", "Preis pro Gramm", "Preis pro Gramm"];
-        capacity.textContent = capacities[index];
-      }
-      const euroPrices = { 600: "12", 1500: "30", 1800: "36", 150: "3" };
-      if (priceSpan) priceSpan.textContent = euroPrices[afghaniPrice] || priceSpan.textContent;
-      if (footer) {
-        footer.childNodes.forEach((node) => {
-          if (node.nodeType === Node.TEXT_NODE) node.textContent = afghaniPrice === 150 ? " € / g" : " €";
-        });
-      }
-      cartCount.textContent = String(count);
-    } else if (language === "en") {
-      if (capacity) {
-        const capacities = ["Net Weight: 4 g", "Net Weight: 10 g", "12 g saffron and cardamom", "Sold at a price per gram", "Sold at a price per gram"];
-        capacity.textContent = capacities[index];
-      }
-      const afghaniPrices = { 600: "600", 1500: "1,500", 1800: "1,800", 150: "150" };
-      if (priceSpan) priceSpan.textContent = afghaniPrices[afghaniPrice] || priceSpan.textContent;
-      if (footer) {
-        footer.childNodes.forEach((node) => {
-          if (node.nodeType === Node.TEXT_NODE) node.textContent = afghaniPrice === 150 ? " AFN / g" : " AFN";
-        });
+  function getSavedLanguage() {
+    try {
+      const saved = localStorage.getItem(languageKey);
+      return allowedLanguages.includes(saved) ? saved : "fa";
+    } catch (error) {
+      console.error("Could not read the saved language preference.", error);
+      return "fa";
+    }
+  }
 
-        if (language === "de") {
-          const footer = document.querySelectorAll(".footer-inner p");
-          if (footer[0]) footer[0].textContent = "Herat, Afghanistan";
-          if (footer[1]) footer[1].innerHTML = 'Afghanistan: <a href="tel:+93793621383" dir="ltr"><b>+93793621383</b></a>';
-          if (footer[2]) footer[2].innerHTML = 'Deutschland: <a href="tel:+4917672877422" dir="ltr"><b>+4917672877422</b></a>';
-          document.querySelectorAll(".gift-box").forEach((box) => box.setAttribute("data-language-name", "Ahmad Sadat"));
-          document.querySelectorAll(".mini-box b").forEach((name) => name.textContent = "Ahmad Sadat Saffron");
-          document.querySelectorAll(".add-button").forEach((button) => button.setAttribute("aria-label", "Produkt in den Warenkorb legen"));
-        } else if (language === "en") {
-          const footer = document.querySelectorAll(".footer-inner p");
-          if (footer[0]) footer[0].textContent = "Herat, Afghanistan";
-          if (footer[1]) footer[1].innerHTML = 'Afghanistan: <a href="tel:+93793621383" dir="ltr"><b>+93793621383</b></a>';
-          if (footer[2]) footer[2].innerHTML = 'Germany: <a href="tel:+4917672877422" dir="ltr"><b>+4917672877422</b></a>';
+  function saveLanguage(language) {
+    try {
+      localStorage.setItem(languageKey, language);
+    } catch (error) {
+      console.error("Could not save the language preference.", error);
+    }
+  }
+
+  function readCart() {
+    const savedItems = new Map();
+    try {
+      const saved = localStorage.getItem(cartKey);
+      if (!saved) return savedItems;
+      const parsed = JSON.parse(saved);
+      if (!Array.isArray(parsed)) throw new TypeError("Saved cart data is not an array.");
+      for (const item of parsed) {
+        if (!Array.isArray(item) || item.length !== 2) {
+          console.error("Ignoring an invalid item in the saved cart.");
+          continue;
+        }
+        const [id, quantity] = item;
+        if (products.has(id) && Number.isSafeInteger(quantity) && quantity > 0) {
+          savedItems.set(id, quantity);
+        } else {
+          console.error("Ignoring an unknown product or invalid quantity in the saved cart.");
         }
       }
-      cartCount.textContent = String(count);
+    } catch (error) {
+      console.error("Could not read the saved cart.", error);
+    }
+    return savedItems;
+  }
+
+  function saveCart() {
+    try {
+      localStorage.setItem(cartKey, JSON.stringify([...cart.entries()]));
+    } catch (error) {
+      console.error("Could not save the cart. It will remain available until this page is closed.", error);
+    }
+  }
+
+  function formatNumber(value, language = currentLanguage) {
+    return new Intl.NumberFormat(numberLocales[language], { maximumFractionDigits: 0 }).format(value);
+  }
+
+  function getPrice(product, language = currentLanguage) {
+    return language === "de" ? product.priceEUR : product.priceAFN;
+  }
+
+  function formatMoney(value, language = currentLanguage) {
+    const currency = language === "de" ? "€" : language === "en" ? "AFN" : "افغانی";
+    return `${formatNumber(value, language)} ${currency}`;
+  }
+
+  function translateStaticText(language) {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if (node.parentElement?.closest("script, style, textarea")) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    let node;
+    while ((node = walker.nextNode())) {
+      if (!originalText.has(node)) originalText.set(node, node.nodeValue);
+      const source = originalText.get(node);
+      const trimmed = source.trim();
+      const translated = translations[trimmed]?.[language];
+      node.nodeValue = translated ? source.replace(trimmed, translated) : source;
+    }
+  }
+
+  function normalizeSearch(value) {
+    return value
+      .normalize("NFKC")
+      .toLocaleLowerCase(currentLanguage)
+      .replace(/[يى]/g, "ی")
+      .replace(/ك/g, "ک")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function updateProductCards(language) {
+    for (const product of products.values()) {
+      const { card } = product;
+      card.querySelector("h3").textContent = product.name[language];
+      card.querySelector(".product-info p").textContent = productDescriptions[product.id][language];
+      card.querySelector(".price-value").textContent = formatNumber(getPrice(product, language), language);
+      card.querySelector(".price-unit").textContent = product.unit === "g"
+        ? uiCopy[language].perGram
+        : uiCopy[language].currency;
+      const addButton = card.querySelector(".add-button");
+      addButton.setAttribute("aria-label", `${uiCopy[language].add} ${product.name[language]}`);
+      addButton.title = uiCopy[language].add;
+    }
+  }
+
+  function setAriaLabels(language) {
+    const labels = [
+      [elements.menu, language === "fa" ? "بازکردن منو" : language === "de" ? "Menü öffnen" : "Open menu"],
+      [elements.searchButton, language === "fa" ? "جستجو" : language === "de" ? "Suche" : "Search"],
+      [elements.cartButton, language === "fa" ? "سبد خرید" : language === "de" ? "Warenkorb" : "Cart"],
+      [elements.closeSearch, language === "fa" ? "بستن جستجو" : language === "de" ? "Suche schließen" : "Close search"],
+      [elements.closeCart, language === "fa" ? "بستن سبد خرید" : language === "de" ? "Warenkorb schließen" : "Close cart"]
+    ];
+    for (const [element, label] of labels) element.setAttribute("aria-label", label);
+    elements.searchInput.placeholder = language === "fa"
+      ? "جستجو در محصولات..."
+      : language === "de" ? "Produkte suchen..." : "Search products...";
+    elements.language.setAttribute("aria-label", language === "fa"
+      ? "انتخاب زبان" : language === "de" ? "Sprache auswählen" : "Choose language");
+    document.querySelector('label[for="productSearchInput"]').textContent = language === "fa"
+      ? "جستجو در محصولات"
+      : language === "de" ? "Produkte suchen" : "Search products";
+    elements.nav.setAttribute("aria-label", language === "fa" ? "منوی اصلی" : language === "de" ? "Hauptmenü" : "Main menu");
+    document.querySelector(".brand").setAttribute("aria-label", language === "fa" ? "صفحه اصلی" : language === "de" ? "Startseite" : "Home");
+    document.querySelector(".hero-visual").setAttribute("aria-label", language === "fa"
+      ? "زعفران درجه یک" : language === "de" ? "Erlesener Safran" : "Premium saffron");
+  }
+
+  function applyLanguage(language) {
+    if (!allowedLanguages.includes(language)) throw new RangeError(`Unsupported language: ${language}`);
+    currentLanguage = language;
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === "fa" ? "rtl" : "ltr";
+    document.body.classList.toggle("lang-fa", language === "fa");
+    document.body.classList.toggle("lang-en", language === "en");
+    document.body.classList.toggle("lang-de", language === "de");
+    elements.language.value = language;
+    translateStaticText(language);
+    elements.toast.classList.remove("show");
+    elements.toast.textContent = language === "fa"
+      ? "به سبد خرید اضافه شد"
+      : language === "de" ? "Zum Warenkorb hinzugefügt" : "Added to cart";
+    updateProductCards(language);
+    setAriaLabels(language);
+    document.title = pageCopy[language].title;
+    document.querySelector('meta[name="description"]').content = pageCopy[language].description;
+    document.querySelector('meta[property="og:title"]').content = pageCopy[language].title;
+    document.querySelector('meta[property="og:description"]').content = pageCopy[language].description;
+    document.querySelector('meta[property="og:locale"]').content = language === "fa"
+      ? "fa_AF" : language === "de" ? "de_DE" : "en_US";
+    document.querySelector(".saffron-tube span").innerHTML = language === "de" ? "NETTO<br>4 g" : "NET WT.<br>4 g";
+    document.querySelector(".quality-badge strong").textContent = new Intl.NumberFormat(numberLocales[language], {
+      useGrouping: false
+    }).format(2019);
+    document.querySelector(".quality-badge span").textContent = language === "fa"
+      ? "آغاز فعالیت" : language === "de" ? "Gegründet" : "Established";
+    document.querySelectorAll(".order-steps li > span").forEach((step, index) => {
+      step.textContent = formatNumber(index + 1, language);
+    });
+    applyProductSearch(elements.searchInput.value);
+    renderCart();
+  }
+
+  function applyProductSearch(query) {
+    const normalizedQuery = normalizeSearch(query);
+    let visibleCount = 0;
+    for (const product of products.values()) {
+      const description = productDescriptions[product.id][currentLanguage];
+      const searchable = normalizeSearch([
+        ...Object.values(product.name),
+        ...Object.values(productDescriptions[product.id]),
+        description
+      ].join(" "));
+      const isVisible = !normalizedQuery || searchable.includes(normalizedQuery);
+      product.card.hidden = !isVisible;
+      if (isVisible) visibleCount += 1;
+    }
+    elements.searchStatus.textContent = normalizedQuery
+      ? visibleCount ? uiCopy[currentLanguage].searchResults(visibleCount) : uiCopy[currentLanguage].noResults
+      : "";
+  }
+
+  function showToast(message) {
+    elements.toast.textContent = message;
+    elements.toast.classList.add("show");
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => elements.toast.classList.remove("show"), 2300);
+  }
+
+  function createCartButton(text, action, id, label) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = text;
+    button.dataset.action = action;
+    button.dataset.id = id;
+    button.setAttribute("aria-label", label);
+    return button;
+  }
+
+  function buildWhatsAppMessage() {
+    const copy = uiCopy[currentLanguage];
+    const lines = [copy.whatsappIntro, ""];
+    let total = 0;
+    for (const [id, quantity] of cart) {
+      const product = products.get(id);
+      if (!product) continue;
+      const subtotal = getPrice(product) * quantity;
+      total += subtotal;
+      const unit = product.unit === "g" ? copy.whatsappUnitGram : copy.whatsappUnitPack;
+      lines.push(`${product.name[currentLanguage]} — ${formatNumber(quantity)} ${unit} — ${formatMoney(subtotal)}`);
+    }
+    lines.push("", `${copy.whatsappTotal}: ${formatMoney(total)}`, "", copy.whatsappClose);
+    return lines.join("\n");
+  }
+
+  function renderCart() {
+    const quantityTotal = [...cart.values()].reduce((sum, quantity) => sum + quantity, 0);
+    const priceTotal = [...cart.entries()].reduce((sum, [id, quantity]) => {
+      const product = products.get(id);
+      return sum + (product ? getPrice(product) * quantity : 0);
+    }, 0);
+    elements.cartCount.textContent = formatNumber(quantityTotal);
+    elements.cartItems.replaceChildren();
+    elements.cartEmpty.hidden = cart.size > 0;
+    elements.clearCart.disabled = cart.size === 0;
+    elements.cartTotal.textContent = formatMoney(priceTotal);
+
+    for (const [id, quantity] of cart) {
+      const product = products.get(id);
+      if (!product) continue;
+      const listItem = document.createElement("li");
+      listItem.className = "cart-item";
+      const details = document.createElement("div");
+      const name = document.createElement("h3");
+      name.textContent = product.name[currentLanguage];
+      const price = document.createElement("div");
+      price.className = "cart-item-price";
+      price.textContent = formatMoney(getPrice(product) * quantity);
+      details.append(name, price);
+
+      const controls = document.createElement("div");
+      controls.className = "cart-item-controls";
+      const unit = product.unit === "g" ? uiCopy[currentLanguage].gram : uiCopy[currentLanguage].pack;
+      const quantityLabel = document.createElement("span");
+      quantityLabel.textContent = `${formatNumber(quantity)} ${unit}`;
+      quantityLabel.setAttribute("aria-label", quantityLabel.textContent);
+      controls.append(
+        createCartButton("−", "decrease", id, `${uiCopy[currentLanguage].decrease}: ${product.name[currentLanguage]}`),
+        quantityLabel,
+        createCartButton("+", "increase", id, `${uiCopy[currentLanguage].increase}: ${product.name[currentLanguage]}`),
+        createCartButton(uiCopy[currentLanguage].remove, "remove", id, `${uiCopy[currentLanguage].remove}: ${product.name[currentLanguage]}`)
+      );
+      listItem.append(details, controls);
+      elements.cartItems.append(listItem);
+    }
+
+    const isEmpty = cart.size === 0;
+    elements.orderLink.setAttribute("aria-disabled", String(isEmpty));
+    if (isEmpty) {
+      elements.orderLink.href = `https://wa.me/${whatsappNumber}`;
+    } else {
+      elements.orderLink.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage())}`;
+    }
+  }
+
+  function changeQuantity(id, amount) {
+    const currentQuantity = cart.get(id) || 0;
+    const nextQuantity = currentQuantity + amount;
+    if (nextQuantity <= 0) cart.delete(id);
+    else cart.set(id, nextQuantity);
+    saveCart();
+    renderCart();
+  }
+
+  elements.language.addEventListener("change", (event) => {
+    const language = event.currentTarget.value;
+    if (!allowedLanguages.includes(language)) {
+      throw new RangeError(`Unsupported language: ${language}`);
+    }
+    saveLanguage(language);
+    applyLanguage(language);
+  });
+
+  elements.menu.addEventListener("click", () => {
+    const isOpen = elements.nav.classList.toggle("is-open");
+    elements.menu.setAttribute("aria-expanded", String(isOpen));
+    elements.menu.setAttribute("aria-label", isOpen
+      ? currentLanguage === "fa" ? "بستن منو" : currentLanguage === "de" ? "Menü schließen" : "Close menu"
+      : currentLanguage === "fa" ? "بازکردن منو" : currentLanguage === "de" ? "Menü öffnen" : "Open menu");
+  });
+
+  elements.nav.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      elements.nav.classList.remove("is-open");
+      elements.menu.setAttribute("aria-expanded", "false");
+      elements.menu.setAttribute("aria-label", currentLanguage === "fa"
+        ? "بازکردن منو" : currentLanguage === "de" ? "Menü öffnen" : "Open menu");
     }
   });
-  document.getElementById("searchOverlay").querySelector("input").placeholder =
-    language === "en" ? "Search products..." : language === "de" ? "Produkte suchen..." : "جستجو در محصولات...";
-  localStorage.setItem("saffronLanguage", language);
-}
 
-const languageSelect = document.getElementById("languageSelect");
-const savedLanguage = localStorage.getItem("saffronLanguage") || "fa";
-languageSelect.value = savedLanguage;
-languageSelect.addEventListener("change", (event) => {
-  localStorage.setItem("saffronLanguage", event.target.value);
-  location.reload();
-});
-applyLanguage(savedLanguage);
-
-document.querySelectorAll(".add-button").forEach((button) => {
-  button.addEventListener("click", () => {
-    count += 1;
-    cartCount.textContent = new Intl.NumberFormat("fa-IR").format(count);
-    toast.classList.add("show");
-    button.textContent = "✓";
-    setTimeout(() => {
-      toast.classList.remove("show");
-      button.textContent = "+";
-    }, 1800);
+  elements.searchButton.addEventListener("click", () => {
+    elements.searchOverlay.classList.add("open");
+    elements.searchOverlay.setAttribute("aria-hidden", "false");
+    elements.searchInput.focus();
   });
-});
+  elements.closeSearch.addEventListener("click", closeSearch);
+  elements.searchOverlay.addEventListener("click", (event) => {
+    if (event.target === elements.searchOverlay) closeSearch();
+  });
+  elements.searchInput.addEventListener("input", (event) => applyProductSearch(event.currentTarget.value));
+  elements.searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && event.currentTarget.value.trim()) {
+      document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+      closeSearch();
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && elements.searchOverlay.classList.contains("open")) closeSearch();
+  });
 
-const overlay = document.getElementById("searchOverlay");
-document.getElementById("searchButton").addEventListener("click", () => {
-  overlay.classList.add("open");
-  overlay.setAttribute("aria-hidden", "false");
-  overlay.querySelector("input").focus();
-});
-document.getElementById("closeSearch").addEventListener("click", () => {
-  overlay.classList.remove("open");
-  overlay.setAttribute("aria-hidden", "true");
-});
-overlay.addEventListener("click", (event) => {
-  if (event.target === overlay) {
-    overlay.classList.remove("open");
-    overlay.setAttribute("aria-hidden", "true");
+  function closeSearch() {
+    elements.searchOverlay.classList.remove("open");
+    elements.searchOverlay.setAttribute("aria-hidden", "true");
+    elements.searchInput.value = "";
+    applyProductSearch("");
+    elements.searchButton.focus();
   }
-});
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    overlay.classList.remove("open");
-    overlay.setAttribute("aria-hidden", "true");
-  }
-});
+
+  elements.cartButton.addEventListener("click", () => elements.cartDialog.showModal());
+  elements.closeCart.addEventListener("click", () => elements.cartDialog.close());
+  elements.cartDialog.addEventListener("click", (event) => {
+    if (event.target === elements.cartDialog) elements.cartDialog.close();
+  });
+  elements.clearCart.addEventListener("click", () => {
+    cart.clear();
+    saveCart();
+    renderCart();
+  });
+
+  document.querySelector(".product-grid").addEventListener("click", (event) => {
+    const button = event.target instanceof Element ? event.target.closest(".add-button") : null;
+    if (!button) return;
+    const product = products.get(button.closest(".product-card").dataset.id);
+    if (!product) throw new Error("The selected product is not available in the catalog.");
+    changeQuantity(product.id, 1);
+    showToast(uiCopy[currentLanguage].addMessage(product.name[currentLanguage]));
+  });
+
+  elements.cartItems.addEventListener("click", (event) => {
+    const button = event.target instanceof Element ? event.target.closest("button[data-action]") : null;
+    if (!button) return;
+    const { action, id } = button.dataset;
+    if (!products.has(id)) throw new Error(`Unknown cart product: ${id}`);
+    if (action === "increase") changeQuantity(id, 1);
+    else if (action === "decrease") changeQuantity(id, -1);
+    else if (action === "remove") {
+      cart.delete(id);
+      saveCart();
+      renderCart();
+    } else {
+      throw new Error(`Unknown cart action: ${action}`);
+    }
+  });
+
+  elements.orderLink.addEventListener("click", (event) => {
+    if (elements.orderLink.getAttribute("aria-disabled") === "true") event.preventDefault();
+  });
+
+  applyLanguage(currentLanguage);
+})();
