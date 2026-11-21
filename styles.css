@@ -11,6 +11,7 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
+  
   font-family: "Vazirmatn", Tahoma, sans-serif;
   color: var(--ink);
   background: #fff;
@@ -398,4 +399,8 @@ footer { background:#4c1518; color:#dfcfc1; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+
+@media (max-width: 640px) {
+    .product-grid { grid-template-columns: 1fr; }
 }
